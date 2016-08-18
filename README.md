@@ -31,7 +31,7 @@ Initialize Fomo client via:
 
 ```ruby
 require 'fomo'
-client = Fomo.new('<auth-token>') # // auth token can be found Fomo application admin dashboard (App -> API Access)
+client = Fomo.new('<auth-token>') # // auth token can be found in Fomo application admin dashboard (App -> API Access)
 ```
 
 To create a new event:
