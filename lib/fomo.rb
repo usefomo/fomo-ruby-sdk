@@ -102,7 +102,7 @@ class Fomo
   # Returns an JSON string.
   #
   def make_request(api_path, method, data = nil)
-    puts(method + ' ' + @endpoint + api_path)
+    # puts(method + ' ' + @endpoint + api_path)
     uri = URI.parse(@endpoint + api_path)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
@@ -117,10 +117,8 @@ class Fomo
       when 'POST'
         headers['Content-Type'] = 'application/json'
         request = Net::HTTP::Post.new(uri.path, initheader=headers)
-        puts(data.to_json)
         request.body = data.to_json
         response = http.request(request)
-        puts('Response: ' + response.body)
         return response.body
       when 'PATCH'
         headers['Content-Type'] = 'application/json'
