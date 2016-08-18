@@ -32,7 +32,7 @@ class FomoTest < Minitest::Test
 
     # Update event
     event.first_name = 'John'
-    updated_event = client.update_event(event);
+    updated_event = client.update_event(event)
     assert('John', updated_event.first_name)
 
     # Delete event

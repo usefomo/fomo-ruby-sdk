@@ -30,46 +30,46 @@ Check out our examples in [test/test_fomo.rb](test/test_fomo.rb), quick usage ex
 Initialize Fomo client via:
 
 ```ruby
-    require 'fomo'
-    client = Fomo.new('<auth-token>') # // auth token can be found Fomo application admin dashboard (App -> API Access)
+require 'fomo'
+client = Fomo.new('<auth-token>') # // auth token can be found Fomo application admin dashboard (App -> API Access)
 ```
 
 To create a new event:
 
 ```ruby
-    event = FomoEventBasic.new
-    event.event_type_id = '183'
-    event.city = 'San Francisco'
-    event.first_name = 'Dean'
-    event.url = 'https://www.usefomo.com'
-    event.title = 'Test event'
-    created_event = client.create_event(event)
+event = FomoEventBasic.new
+event.event_type_id = '183' # Event type ID is found on Fomo dashboard (Templates -> Template ID)
+event.city = 'San Francisco'
+event.first_name = 'Dean'
+event.url = 'https://www.usefomo.com'
+event.title = 'Test event'
+created_event = client.create_event(event)
 ```
 
 To get an event:
 
 ```ruby
-    event = client.get_event('<event-id>')
+event = client.get_event('<event-id>')
 ```
 
 To get all events:
 
 ```ruby
-    list = client.get_events
+list = client.get_events
 ```
 
 To delete an event:
 
 ```ruby
-    client.delete_event('<event-id>')
+client.delete_event('<event-id>')
 ```
 
 To update an event:
 
 ```ruby
-    event = client.get_event('<event-id>')
-    event.first_name = 'John'
-    updated_event = client.update_event(event);
+event = client.get_event('<event-id>')
+event.first_name = 'John'
+updated_event = client.update_event(event)
 ```
 
 ## Support
