@@ -22,9 +22,11 @@ class FomoTest < Minitest::Test
     event.first_name = 'Dean'
     event.url = 'https://www.usefomo.com'
     event.title = 'Test event'
+    event.add_custom_event_field('test', 'testing')
     created_event = client.create_event(event)
     puts(created_event.to_json)
     assert(event.first_name, created_event.first_name)
+    assert('testing', created_event.custom_event_fields_attributes[0]['value'])
 
     # Get event
     event = client.get_event(created_event.id)
@@ -32,8 +34,10 @@ class FomoTest < Minitest::Test
 
     # Update event
     event.first_name = 'John'
+    event.custom_event_fields_attributes[0]['value'] = 'bla'
     updated_event = client.update_event(event)
     assert('John', updated_event.first_name)
+    assert('bla', updated_event.custom_event_fields_attributes[0]['value'])
 
     # Delete event
     client.delete_event(updated_event.id)

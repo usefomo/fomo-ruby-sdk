@@ -102,7 +102,7 @@ class Fomo
   # Returns an JSON string.
   #
   def make_request(api_path, method, data = nil)
-    # puts(method + ' ' + @endpoint + api_path)
+    puts(method + ' ' + @endpoint + api_path)
     uri = URI.parse(@endpoint + api_path)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
@@ -117,8 +117,10 @@ class Fomo
       when 'POST'
         headers['Content-Type'] = 'application/json'
         request = Net::HTTP::Post.new(uri.path, initheader=headers)
+        puts(data.to_json)
         request.body = data.to_json
         response = http.request(request)
+        puts('Response: ' + response.body)
         return response.body
       when 'PATCH'
         headers['Content-Type'] = 'application/json'
@@ -184,9 +186,14 @@ class FomoEventBasic
   # Arguments:
   #   key: Custom attribute key
   #   value: Custom attribute value
+  #   id: Custom attribute ID
   #
-  def add_custom_event_field(key, value)
-    @custom_event_fields_attributes[] = {'key' => key, 'value' => value}
+  def add_custom_event_field(key, value, id='')
+    if id == ''
+      @custom_event_fields_attributes.push({'key' => key, 'value' => value})
+    else
+      @custom_event_fields_attributes.push({'key' => key, 'value' => value, 'id' => id})
+    end
   end
 
   # Return JSON serialized object
@@ -195,7 +202,7 @@ class FomoEventBasic
     self.instance_variables.each do |var|
       hash[var.to_s.sub(/^@/, '')] = self.instance_variable_get var
     end
-    hash.to_json
+    '{"event":' + hash.to_json + '}'
   end
 end
 
@@ -266,9 +273,14 @@ class FomoEvent
   # Arguments:
   #   key: Custom attribute key
   #   value: Custom attribute value
+  #   id: Custom attribute ID
   #
-  def add_custom_event_field(key, value)
-    @custom_event_fields_attributes[] = {'key' => key, 'value' => value}
+  def add_custom_event_field(key, value, id='')
+    if id == ''
+      @custom_event_fields_attributes.push({'key' => key, 'value' => value})
+    else
+      @custom_event_fields_attributes.push({'key' => key, 'value' => value, 'id' => id})
+    end
   end
 
   # Return JSON serialized object
@@ -277,7 +289,7 @@ class FomoEvent
     self.instance_variables.each do |var|
       hash[var.to_s.sub(/^@/, '')] = self.instance_variable_get var
     end
-    hash.to_json
+    '{"event":' + hash.to_json + '}'
   end
 end
 
