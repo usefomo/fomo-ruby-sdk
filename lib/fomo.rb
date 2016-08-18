@@ -102,7 +102,7 @@ class Fomo
   # Returns an JSON string.
   #
   def make_request(api_path, method, data = nil)
-    puts(method + ' ' + @endpoint + api_path)
+    # puts(method + ' ' + @endpoint + api_path)
     uri = URI.parse(@endpoint + api_path)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true

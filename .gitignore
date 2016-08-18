@@ -11,6 +11,7 @@ pkg
 specdoc
 wiki
 *.log
+*.gem
 
 #IntelliJ
 .idea
