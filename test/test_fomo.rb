@@ -5,7 +5,7 @@ require 'json'
 class FomoTest < Minitest::Test
   def test_fomo
     # Initializes Fomo Client
-    client = Fomo.new('MzBiGa33iD5ACNcQHPHX9A')
+    client = Fomo.new('<token>')
 
     # List current events and delete all of them
     list = client.get_events
