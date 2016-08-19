@@ -34,7 +34,18 @@ require 'fomo'
 client = Fomo.new('<auth-token>') # // auth token can be found in Fomo application admin dashboard (App -> API Access)
 ```
 
-To create a new event:
+To create a new event directly:
+
+```ruby
+client.create_event(event_type_id='183', # Event type ID is found on Fomo dashboard (Templates -> Template ID)
+                    city='San Francisco',
+                    first_name='Dean',
+                    url='https://www.usefomo.com',
+                    title='Test event',
+                    custom_event_fields_attributes=[{'key' => 'variable_name', 'value' => 'value'}])
+```
+
+To create a new event with object:
 
 ```ruby
 event = FomoEventBasic.new
@@ -43,6 +54,10 @@ event.city = 'San Francisco'
 event.first_name = 'Dean'
 event.url = 'https://www.usefomo.com'
 event.title = 'Test event'
+
+# Add event custom attribute value
+event.add_custom_event_field('variable_name', 'value')
+
 created_event = client.create_event(event)
 ```
 

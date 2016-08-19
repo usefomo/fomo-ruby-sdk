@@ -6,6 +6,9 @@
 
 require 'net/http'
 require 'json'
+require 'fomo_event_basic'
+require 'fomo_event'
+require 'fomo_delete_message_response'
 
 # Fomo Client is wrapper around official Fomo API (https://www.usefomo.com)
 class Fomo
@@ -35,8 +38,12 @@ class Fomo
   #
   def get_event(id)
     response = make_request('/api/v1/applications/me/events/' + id.to_s, 'GET')
-    j = JSON.parse(response)
-    FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
+    begin
+      j = JSON.parse(response)
+      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
+    rescue JSON::ParserError => _
+      # String was not valid
+    end
   end
 
   # Get events
@@ -45,25 +52,46 @@ class Fomo
   #
   def get_events
     response = make_request('/api/v1/applications/me/events', 'GET')
-    data = JSON.parse(response)
-    list = []
-    data.each do |j|
-      list.push(FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes']))
+    begin
+      data = JSON.parse(response)
+      list = []
+      data.each do |j|
+        list.push(FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes']))
+      end
+      list
+    rescue JSON::ParserError => _
+      # String was not valid
     end
-    list
   end
 
   # Create event
   #
   # Arguments:
   #   event: (FomoEventBasic) Fomo event
+  #   event_type_id: (String) Event type ID
+  #   url: (String) Event URL
+  #   first_name: (String) First name
+  #   city: (String) City
+  #   province: (String) Province
+  #   country: (String) Country
+  #   title: (String) Event title
+  #   image_url: (String) Event Image URL
+  #   custom_event_fields_attributes: (array) Custom event attributes
   #
   # Returns an FomoEvent object.
   #
-  def create_event(event)
+  def create_event(event=nil, event_type_id='', url='', first_name='', city='', province='', country='', title='', image_url='', custom_event_fields_attributes=[])
+    if event == nil
+      event = FomoEventBasic.new(event_type_id, url, first_name, city, province, country, title, image_url, custom_event_fields_attributes)
+    end
+
     response = make_request('/api/v1/applications/me/events', 'POST', event)
-    j = JSON.parse(response)
-    FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
+    begin
+      j = JSON.parse(response)
+      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
+    rescue JSON::ParserError => _
+      # String was not valid
+    end
   end
 
   # Delete event
@@ -75,8 +103,12 @@ class Fomo
   #
   def delete_event(id)
     response = make_request('/api/v1/applications/me/events/' + id.to_s, 'DELETE')
-    j = JSON.parse(response)
-    FomoDeleteMessageResponse.new(j['message'])
+    begin
+      j = JSON.parse(response)
+      FomoDeleteMessageResponse.new(j['message'])
+    rescue JSON::ParserError => _
+      # String was not valid
+    end
   end
 
   # Update event
@@ -88,8 +120,12 @@ class Fomo
   #
   def update_event(event)
     response = make_request('/api/v1/applications/me/events/' + event.id.to_s, 'PATCH', event)
-    j = JSON.parse(response)
-    FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
+    begin
+      j = JSON.parse(response)
+      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
+    rescue JSON::ParserError => _
+      # String was not valid
+    end
   end
 
   # Make authorized request to Fomo API
@@ -133,181 +169,5 @@ class Fomo
       else
         puts('Unknown method')
     end
-  end
-end
-
-# This class holds attributes of basic event, object is needed when creating new event
-class FomoEventBasic
-
-  # Event type unique ID (required)
-  attr_accessor :event_type_id
-
-  # Url to redirect on the event click. Size range: 0..255 (required)
-  attr_accessor :url
-
-  # First name of the person on the event. Size range: 0..255
-  attr_accessor :first_name
-
-  # City where the event happened. Size range: 0..255
-  attr_accessor :city
-
-  # Province where the event happened. Size range: 0..255
-  attr_accessor :province
-
-  # Country where the event happened ISO-2 standard. Size range: 0..255
-  attr_accessor :country
-
-  # Title of the event. Size range: 0..255
-  attr_accessor :title
-
-  # Url of the image to be displayed. Size range: 0..255
-  attr_accessor :image_url
-
-  # Array to create custom event fields
-  attr_accessor :custom_event_fields_attributes
-
-  # Initializes FomoEventBasic object
-  def initialize(event_type_id='', url='', first_name='', city='', province='', country='', title='', image_url='', custom_event_fields_attributes = [])
-    @event_type_id = event_type_id
-    @url = url
-    @first_name = first_name
-    @city = city
-    @province = province
-    @country = country
-    @title = title
-    @image_url = image_url
-    @custom_event_fields_attributes = custom_event_fields_attributes
-  end
-
-  # Add custom event field
-  #
-  # Arguments:
-  #   key: Custom attribute key
-  #   value: Custom attribute value
-  #   id: Custom attribute ID
-  #
-  def add_custom_event_field(key, value, id='')
-    if id == ''
-      @custom_event_fields_attributes.push({'key' => key, 'value' => value})
-    else
-      @custom_event_fields_attributes.push({'key' => key, 'value' => value, 'id' => id})
-    end
-  end
-
-  # Return JSON serialized object
-  def to_json
-    hash = {}
-    self.instance_variables.each do |var|
-      hash[var.to_s.sub(/^@/, '')] = self.instance_variable_get var
-    end
-    '{"event":' + hash.to_json + '}'
-  end
-end
-
-# This class holds attributes of event, object returned by API
-class FomoEvent
-  # Event ID
-  attr_accessor :id
-
-  # Created timestamp
-  attr_accessor :created_at
-
-  # Updated timestamp
-  attr_accessor :updated_at
-
-  # Message template
-  attr_accessor :message
-
-  # Full link
-  attr_accessor :link
-
-  # Event type unique ID (required)
-  attr_accessor :event_type_id
-
-  # Url to redirect on the event click. Size range: 0..255 (required)
-  attr_accessor :url
-
-  # First name of the person on the event. Size range: 0..255
-  attr_accessor :first_name
-
-  # City where the event happened. Size range: 0..255
-  attr_accessor :city
-
-  # Province where the event happened. Size range: 0..255
-  attr_accessor :province
-
-  # Country where the event happened ISO-2 standard. Size range: 0..255
-  attr_accessor :country
-
-  # Title of the event. Size range: 0..255
-  attr_accessor :title
-
-  # Url of the image to be displayed. Size range: 0..255
-  attr_accessor :image_url
-
-  # Array to create custom event fields
-  attr_accessor :custom_event_fields_attributes
-
-  # Initializes FomoEvent object
-  def initialize(id='', created_at='', updated_at='', message='', link='', event_type_id='', url='', first_name='', city='', province='', country='', title='', image_url='', custom_event_fields_attributes = [])
-    @id = id
-    @created_at = created_at
-    @updated_at = updated_at
-    @message = message
-    @link = link
-    @event_type_id = event_type_id
-    @url = url
-    @first_name = first_name
-    @city = city
-    @province = province
-    @country = country
-    @title = title
-    @image_url = image_url
-    @custom_event_fields_attributes = custom_event_fields_attributes
-  end
-
-  # Add custom event field
-  #
-  # Arguments:
-  #   key: Custom attribute key
-  #   value: Custom attribute value
-  #   id: Custom attribute ID
-  #
-  def add_custom_event_field(key, value, id='')
-    if id == ''
-      @custom_event_fields_attributes.push({'key' => key, 'value' => value})
-    else
-      @custom_event_fields_attributes.push({'key' => key, 'value' => value, 'id' => id})
-    end
-  end
-
-  # Return JSON serialized object
-  def to_json
-    hash = {}
-    self.instance_variables.each do |var|
-      hash[var.to_s.sub(/^@/, '')] = self.instance_variable_get var
-    end
-    '{"event":' + hash.to_json + '}'
-  end
-end
-
-# This class holds attributes of Fomo delete response, object returned by API
-class FomoDeleteMessageResponse
-
-  # Message
-  attr_accessor :message
-
-  # Initializes FomoDeleteMessageResponse object
-  def initialize(message='')
-    @message = message
-  end
-
-  # Return JSON serialized object
-  def to_json
-    hash = {}
-    self.instance_variables.each do |var|
-      hash[var.to_s.sub(/^@/, '')] = self.instance_variable_get var
-    end
-    hash.to_json
   end
 end
