@@ -20,7 +20,7 @@ And then execute:
 Or install it yourself as:
 
     $ gem install fomo
-    
+
 ## Usage
 
 ### Basic usage
@@ -37,12 +37,12 @@ client = Fomo.new('<auth-token>') # // auth token can be found in Fomo applicati
 To create a new event directly:
 
 ```ruby
-client.create_event(event_type_id='183', # Event type ID is found on Fomo dashboard (Templates -> Template ID)
-                    city='San Francisco',
-                    first_name='Dean',
-                    url='https://www.usefomo.com',
-                    title='Test event',
-                    custom_event_fields_attributes=[{'key' => 'variable_name', 'value' => 'value'}])
+client.create_event(event_type_id: '183', # Event type ID is found on Fomo dashboard (Templates -> Template ID)
+                    city: 'San Francisco',
+                    first_name: 'Dean',
+                    url: 'https://www.usefomo.com',
+                    title: 'Test event',
+                    custom_event_fields_attributes: [{'key' => 'variable_name', 'value' => 'value'}])
 ```
 
 To create a new event with object:

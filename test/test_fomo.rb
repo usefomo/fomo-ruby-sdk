@@ -30,12 +30,12 @@ class FomoTest < Minitest::Test
     assert('value', created_event.custom_event_fields_attributes[0]['value'])
 
     # Create event directly
-    client.create_event(event_type_id='183',
-                        city='San Francisco',
-                        first_name='Dean',
-                        url='https://www.usefomo.com',
-                        title='Test event',
-                        custom_event_fields_attributes=[{'key' => 'variable_name', 'value' => 'value'}])
+    client.create_event(event_type_id:'183',
+                        city:'San Francisco',
+                        first_name:'Dean',
+                        url:'https://www.usefomo.com',
+                        title:'Test event',
+                        custom_event_fields_attributes:[{'key' => 'variable_name', 'value' => 'value'}])
     puts(created_event.to_json)
     assert(event.first_name, created_event.first_name)
     assert('value', created_event.custom_event_fields_attributes[0]['value'])
