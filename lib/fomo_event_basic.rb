@@ -9,8 +9,11 @@ require 'json'
 # This class holds attributes of basic event, object is needed when creating new event
 class FomoEventBasic
 
-  # Event type unique ID (required)
+  # Event type unique ID (optional|required if event_type_tag = '')
   attr_accessor :event_type_id
+
+  # Event type unique ID (optional|required if event_type_id = '')
+  attr_accessor :event_type_tag
 
   # Url to redirect on the event click. Size range: 0..255 (required)
   attr_accessor :url
@@ -37,8 +40,9 @@ class FomoEventBasic
   attr_accessor :custom_event_fields_attributes
 
   # Initializes FomoEventBasic object
-  def initialize(event_type_id='', url='', first_name='', city='', province='', country='', title='', image_url='', custom_event_fields_attributes = [])
+  def initialize(event_type_id='', event_type_tag='', url='', first_name='', city='', province='', country='', title='', image_url='', custom_event_fields_attributes = [])
     @event_type_id = event_type_id
+    @event_type_tag = event_type_tag
     @url = url
     @first_name = first_name
     @city = city

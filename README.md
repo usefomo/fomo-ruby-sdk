@@ -9,8 +9,7 @@ API docs: [http://docs.usefomo.com/reference](http://docs.usefomo.com/reference)
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'fomo', '~> 0.0.1'
-
+gem 'fomo', '~> 0.0.3'
 ```
 
 And then execute:
@@ -34,7 +33,19 @@ require 'fomo'
 client = Fomo.new('<auth-token>') # // auth token can be found in Fomo application admin dashboard (App -> API Access)
 ```
 
-To create a new event directly:
+To create a new event directly with template name:
+
+```ruby
+client.create_event(event_type_tag: 'new-order', # Event type tag is found on Fomo dashboard (Templates -> Template name)
+                    city: 'San Francisco',
+                    first_name: 'Dean',
+                    url: 'https://www.usefomo.com',
+                    title: 'Test event',
+                    custom_event_fields_attributes: [{'key' => 'variable_name', 'value' => 'value'}])
+```
+
+
+To create a new event directly with template ID:
 
 ```ruby
 client.create_event(event_type_id: '183', # Event type ID is found on Fomo dashboard (Templates -> Template ID)

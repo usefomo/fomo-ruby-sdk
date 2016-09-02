@@ -4,7 +4,7 @@
 # Copyright:: Copyright (c) 2016. Fomo. https://www.usefomo.com
 # License:: MIT
 
-require 'net/http'
+require 'net/https'
 require 'json'
 require 'fomo_event_basic'
 require 'fomo_event'
@@ -40,7 +40,7 @@ class Fomo
     response = make_request('/api/v1/applications/me/events/' + id.to_s, 'GET')
     begin
       j = JSON.parse(response)
-      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
+      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['event_type_tag'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
     rescue JSON::ParserError => _
       # String was not valid
     end
@@ -56,7 +56,7 @@ class Fomo
       data = JSON.parse(response)
       list = []
       data.each do |j|
-        list.push(FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes']))
+        list.push(FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['event_type_tag'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes']))
       end
       list
     rescue JSON::ParserError => _
@@ -69,6 +69,7 @@ class Fomo
   # Arguments:
   #   event: (FomoEventBasic) Fomo event
   #   event_type_id: (String) Event type ID
+  #   event_type_tag: (String) Event type tag
   #   url: (String) Event URL
   #   first_name: (String) First name
   #   city: (String) City
@@ -80,15 +81,15 @@ class Fomo
   #
   # Returns an FomoEvent object.
   #
-  def create_event(event=nil, event_type_id='', url='', first_name='', city='', province='', country='', title='', image_url='', custom_event_fields_attributes=[])
+  def create_event(event=nil, event_type_id='', event_type_tag='', url='', first_name='', city='', province='', country='', title='', image_url='', custom_event_fields_attributes=[])
     if event == nil
-      event = FomoEventBasic.new(event_type_id, url, first_name, city, province, country, title, image_url, custom_event_fields_attributes)
+      event = FomoEventBasic.new(event_type_id, event_type_tag, url, first_name, city, province, country, title, image_url, custom_event_fields_attributes)
     end
 
     response = make_request('/api/v1/applications/me/events', 'POST', event)
     begin
       j = JSON.parse(response)
-      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
+      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['event_type_tag'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
     rescue JSON::ParserError => _
       # String was not valid
     end
@@ -122,7 +123,7 @@ class Fomo
     response = make_request('/api/v1/applications/me/events/' + event.id.to_s, 'PATCH', event)
     begin
       j = JSON.parse(response)
-      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
+      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['event_type_tag'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
     rescue JSON::ParserError => _
       # String was not valid
     end
@@ -138,7 +139,6 @@ class Fomo
   # Returns an JSON string.
   #
   def make_request(api_path, method, data = nil)
-    # puts(method + ' ' + @endpoint + api_path)
     uri = URI.parse(@endpoint + api_path)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
