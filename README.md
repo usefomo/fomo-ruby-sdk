@@ -9,7 +9,7 @@ API docs: [http://docs.usefomo.com/reference](http://docs.usefomo.com/reference)
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'fomo', '~> 0.0.3'
+gem 'fomo', '~> 0.0.4'
 ```
 
 And then execute:
@@ -78,10 +78,21 @@ To get an event:
 event = client.get_event('<event-id>')
 ```
 
-To get all events:
+To get events:
 
 ```ruby
-list = client.get_events
+list = client.get_events(30, 1)
+```
+
+To get events with metadata:
+
+```ruby
+data = client.get_events_with_meta(30, 1)
+events = data.events
+puts data.meta.per_page
+puts data.meta.page
+puts data.meta.total_count
+puts data.meta.total_pages
 ```
 
 To delete an event:
