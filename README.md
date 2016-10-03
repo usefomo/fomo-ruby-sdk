@@ -1,4 +1,6 @@
 # Fomo Ruby SDK
+[![Gem](https://img.shields.io/gem/v/fomo.svg)](https://rubygems.org/gems/fomo)
+[![Gem](https://img.shields.io/gem/dt/fomo.svg)](https://rubygems.org/gems/fomo)
 
 *Fomo Ruby SDK* is the official SDK wrapper for the [Fomo API service](https://www.usefomo.com)
 
