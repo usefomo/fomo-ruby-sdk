@@ -23,8 +23,11 @@ class FomoEvent
   # Full link
   attr_accessor :link
 
-  # Event type unique ID (required)
+  # Event type unique ID (optional|required if event_type_tag = '')
   attr_accessor :event_type_id
+
+  # Event type unique ID (optional|required if event_type_id = '')
+  attr_accessor :event_type_tag
 
   # Url to redirect on the event click. Size range: 0..255 (required)
   attr_accessor :url
@@ -51,13 +54,14 @@ class FomoEvent
   attr_accessor :custom_event_fields_attributes
 
   # Initializes FomoEvent object
-  def initialize(id='', created_at='', updated_at='', message='', link='', event_type_id='', url='', first_name='', city='', province='', country='', title='', image_url='', custom_event_fields_attributes = [])
+  def initialize(id='', created_at='', updated_at='', message='', link='', event_type_id='', event_type_tag='', url='', first_name='', city='', province='', country='', title='', image_url='', custom_event_fields_attributes = [])
     @id = id
     @created_at = created_at
     @updated_at = updated_at
     @message = message
     @link = link
     @event_type_id = event_type_id
+    @event_type_tag = event_type_tag
     @url = url
     @first_name = first_name
     @city = city
