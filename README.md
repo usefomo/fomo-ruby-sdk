@@ -38,9 +38,10 @@ client = Fomo.new('<auth-token>') # // auth token can be found in Fomo applicati
 To create a new event directly with template name:
 
 ```ruby
-client.create_event(event_type_tag: 'new-order', # Event type tag is found on Fomo dashboard (Templates -> Template name)
-                    city: 'San Francisco',
-                    first_name: 'Dean',
+client.create_event(event_type_tag: 'new_order', # Event type tag is found on Fomo dashboard (Templates -> Template name)
+                    city: 'New York',
+                    first_name: 'Ryan',
+                    email_address: 'ryan.kulp@usefomo.com', # used for creating Avatars in notifications
                     url: 'https://www.usefomo.com',
                     title: 'Test event',
                     custom_event_fields_attributes: [{'key' => 'variable_name', 'value' => 'value'}])
@@ -53,6 +54,7 @@ To create a new event directly with template ID:
 client.create_event(event_type_id: '183', # Event type ID is found on Fomo dashboard (Templates -> Template ID)
                     city: 'San Francisco',
                     first_name: 'Dean',
+                    email_address: 'dean@somewhere.com',
                     url: 'https://www.usefomo.com',
                     title: 'Test event',
                     custom_event_fields_attributes: [{'key' => 'variable_name', 'value' => 'value'}])
