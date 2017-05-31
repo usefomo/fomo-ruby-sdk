@@ -18,8 +18,9 @@ class FomoTest < Minitest::Test
     # Create event
     event = FomoEventBasic.new
     event.event_type_id = '1894'
-    event.city = 'San Francisco'
-    event.first_name = 'Dean'
+    event.city = 'New York City'
+    event.first_name = 'Ryan'
+    event.email_address = 'ryan.kulp@usefomo.com'
     event.url = 'https://www.usefomo.com'
     event.title = 'Test event'
     # Add event custom attribute value
@@ -45,6 +46,7 @@ class FomoTest < Minitest::Test
     client.create_event(event_type_tag='new_order',  # Event type tag is found on Fomo dashboard (Templates -> Template name)
                         city='San Francisco',
                         first_name='Dean',
+                        email_address='dean@somewhere.com',
                         url='https://www.usefomo.com',
                         title='Test event',
                         custom_event_fields_attributes=[{'key' => 'variable_name', 'value' => 'value'}])
@@ -56,6 +58,7 @@ class FomoTest < Minitest::Test
     client.create_event(event_type_id='183',  # Event type ID is found on Fomo dashboard (Templates -> Template ID)
                         city='San Francisco',
                         first_name='Dean',
+                        email_address='dean@somewhere.com',
                         url='https://www.usefomo.com',
                         title='Test event',
                         custom_event_fields_attributes=[{'key' => 'variable_name', 'value' => 'value'}])
