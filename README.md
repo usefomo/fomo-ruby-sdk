@@ -41,6 +41,7 @@ To create a new event directly with template name:
 client.create_event(event_type_tag: 'new_order', # Event type tag is found on Fomo dashboard (Templates -> Template name)
                     city: 'New York',
                     first_name: 'Ryan',
+                    ip_address: '128.177.108.102', # used for extracting location parameters
                     email_address: 'ryan.kulp@usefomo.com', # used for creating Avatars in notifications
                     url: 'https://www.usefomo.com',
                     title: 'Test event',
@@ -54,6 +55,7 @@ To create a new event directly with template ID:
 client.create_event(event_type_id: '183', # Event type ID is found on Fomo dashboard (Templates -> Template ID)
                     city: 'San Francisco',
                     first_name: 'Dean',
+                    ip_address: '128.177.108.102',
                     email_address: 'dean@somewhere.com',
                     url: 'https://www.usefomo.com',
                     title: 'Test event',
