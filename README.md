@@ -11,7 +11,7 @@ API docs: [http://docs.usefomo.com/reference](http://docs.usefomo.com/reference)
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'fomo', '~> 0.0.4'
+gem 'fomo'
 ```
 
 And then execute:
