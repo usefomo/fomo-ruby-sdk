@@ -6,7 +6,6 @@
 
 require 'net/https'
 require 'json'
-require 'fomo_event_basic'
 require 'fomo_event'
 require 'fomo_delete_message_response'
 require 'fomo_meta_data'
@@ -98,11 +97,13 @@ class Fomo
   # Create event
   #
   # Arguments:
-  #   event: (FomoEventBasic) Fomo event
+  #   event: (FomoEvent) Fomo event
   #   event_type_id: (String) Event type ID
   #   event_type_tag: (String) Event type tag
   #   url: (String) Event URL
   #   first_name: (String) First name
+  #   email_address: (String) Email address
+  #   ip_address: (String) IP address
   #   city: (String) City
   #   province: (String) Province
   #   country: (String) Country
@@ -112,9 +113,10 @@ class Fomo
   #
   # Returns an FomoEvent object.
   #
-  def create_event(event=nil, event_type_id='', event_type_tag='', url='', first_name='', email_address='', ip_address='', city='', province='', country='', title='', image_url='', custom_event_fields_attributes=[])
-    if event == nil
-      event = FomoEventBasic.new(event_type_id, event_type_tag, url, first_name, email_address, ip_address, city, province, country, title, image_url, custom_event_fields_attributes)
+  def create_event(event={})
+    if event == {}
+      puts "No event provided - please provide a FomoEvent object or hash of parameters"
+      return
     end
 
     response = make_request('/api/v1/applications/me/events', 'POST', event)
