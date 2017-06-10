@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name = 'fomo'
-  spec.version = '0.0.7'
+  spec.version = '0.0.8'
   spec.date = '2017-06-10'
   spec.summary = 'Fomo'
   spec.description = 'Fomo Ruby SDK is the official SDK wrapper for the Fomo API service'

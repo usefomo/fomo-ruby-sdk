@@ -51,10 +51,10 @@ class FomoTest < Minitest::Test
 
     # Update event
     event.first_name = 'John'
-    event.custom_event_fields_attributes[0] = 'changed_value'
+    event.custom_event_fields_attributes[0]['value'] = 'changed_value'
     updated_event = client.update_event(event)
     assert('John', updated_event.first_name)
-    assert('changed_value', updated_event.custom_event_fields_attributes[0])
+    assert('changed_value', event.custom_event_fields_attributes[0]['value'])
 
     # Delete event
     client.delete_event(updated_event.id)
