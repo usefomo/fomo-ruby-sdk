@@ -16,17 +16,19 @@ class FomoTest < Minitest::Test
     assert(0, list.count)
 
     # Create event
-    event = FomoEventBasic.new
-    event.event_type_id = '1894'
+    event = FomoEvent.new
+    event.event_type_id = '3236'
     event.city = 'New York City'
     event.first_name = 'Ryan'
     event.email_address = 'ryan.kulp@usefomo.com'
     event.ip_address = '128.177.108.102'
     event.url = 'https://www.usefomo.com'
     event.title = 'Test event'
-    # Add event custom attribute value
+
+    # Add custom attributes to event
     event.add_custom_event_field('variable_name', 'value')
-    created_event = client.create_event(event=event)
+    created_event = client.create_event(event)
+
     puts(created_event.to_json)
     assert(event.first_name, created_event.first_name)
     assert('value', created_event.custom_event_fields_attributes[0]['value'])
@@ -43,42 +45,16 @@ class FomoTest < Minitest::Test
     assert(1, listWithMeta.meta.page)
     assert(1, listWithMeta.meta.total_pages)
 
-    # Create event directly with template name
-    client.create_event(event_type_tag='new_order',  # Event type tag is found on Fomo dashboard (Templates -> Template name)
-                        city='San Francisco',
-                        first_name='Dean',
-                        email_address='dean@somewhere.com',
-                        ip_address='128.177.108.102',
-                        url='https://www.usefomo.com',
-                        title='Test event',
-                        custom_event_fields_attributes=[{'key' => 'variable_name', 'value' => 'value'}])
-    puts(created_event.to_json)
-    assert(event.first_name, created_event.first_name)
-    assert('value', created_event.custom_event_fields_attributes[0]['value'])
-
-    # Create event directly with template ID
-    client.create_event(event_type_id='183',  # Event type ID is found on Fomo dashboard (Templates -> Template ID)
-                        city='San Francisco',
-                        first_name='Dean',
-                        email_address='dean@somewhere.com',
-                        ip_address='128.177.108.102',
-                        url='https://www.usefomo.com',
-                        title='Test event',
-                        custom_event_fields_attributes=[{'key' => 'variable_name', 'value' => 'value'}])
-    puts(created_event.to_json)
-    assert(event.first_name, created_event.first_name)
-    assert('value', created_event.custom_event_fields_attributes[0]['value'])
-
     # Get event
     event = client.get_event(created_event.id)
     assert(event.first_name, created_event.first_name)
 
     # Update event
     event.first_name = 'John'
-    event.custom_event_fields_attributes[0]['value'] = 'changed_value'
+    event.custom_event_fields_attributes[0] = 'changed_value'
     updated_event = client.update_event(event)
     assert('John', updated_event.first_name)
-    assert('changed_value', updated_event.custom_event_fields_attributes[0]['value'])
+    assert('changed_value', updated_event.custom_event_fields_attributes[0])
 
     # Delete event
     client.delete_event(updated_event.id)
@@ -86,6 +62,5 @@ class FomoTest < Minitest::Test
     # List events
     list = client.get_events
     assert(0, list.count)
-
   end
 end
