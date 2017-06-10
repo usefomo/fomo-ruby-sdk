@@ -24,6 +24,9 @@ class FomoEventBasic
   # Email address of the person on the event. Size range: 0..255
   attr_accessor :email_address
 
+  # IP address of the person on the event. Size range: 0..255
+  attr_accessor :ip_address
+
   # City where the event happened. Size range: 0..255
   attr_accessor :city
 
@@ -43,12 +46,13 @@ class FomoEventBasic
   attr_accessor :custom_event_fields_attributes
 
   # Initializes FomoEventBasic object
-  def initialize(event_type_id='', event_type_tag='', url='', first_name='', email_address='', city='', province='', country='', title='', image_url='', custom_event_fields_attributes = [])
+  def initialize(event_type_id='', event_type_tag='', url='', first_name='', email_address='', ip_address='', city='', province='', country='', title='', image_url='', custom_event_fields_attributes = [])
     @event_type_id = event_type_id
     @event_type_tag = event_type_tag
     @url = url
     @first_name = first_name
     @email_address = email_address
+    @ip_address = ip_address
     @city = city
     @province = province
     @country = country

@@ -21,6 +21,7 @@ class FomoTest < Minitest::Test
     event.city = 'New York City'
     event.first_name = 'Ryan'
     event.email_address = 'ryan.kulp@usefomo.com'
+    event.ip_address = '128.177.108.102'
     event.url = 'https://www.usefomo.com'
     event.title = 'Test event'
     # Add event custom attribute value
@@ -47,6 +48,7 @@ class FomoTest < Minitest::Test
                         city='San Francisco',
                         first_name='Dean',
                         email_address='dean@somewhere.com',
+                        ip_address='128.177.108.102',
                         url='https://www.usefomo.com',
                         title='Test event',
                         custom_event_fields_attributes=[{'key' => 'variable_name', 'value' => 'value'}])
@@ -59,6 +61,7 @@ class FomoTest < Minitest::Test
                         city='San Francisco',
                         first_name='Dean',
                         email_address='dean@somewhere.com',
+                        ip_address='128.177.108.102',
                         url='https://www.usefomo.com',
                         title='Test event',
                         custom_event_fields_attributes=[{'key' => 'variable_name', 'value' => 'value'}])

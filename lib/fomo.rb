@@ -28,7 +28,7 @@ class Fomo
   #
   def initialize (auth_token)
     @auth_token = auth_token
-    @version = '0.0.4'
+    @version = '0.0.6'
     @endpoint = 'https://www.usefomo.com'
   end
 
@@ -43,7 +43,7 @@ class Fomo
     response = make_request('/api/v1/applications/me/events/' + id.to_s, 'GET')
     begin
       j = JSON.parse(response)
-      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['event_type_tag'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
+      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['event_type_tag'], j['url'], j['first_name'], j['email_address'], j['ip_address'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
     rescue JSON::ParserError => _
       # String was not valid
     end
@@ -63,7 +63,7 @@ class Fomo
       data = JSON.parse(response)
       list = []
       data.each do |j|
-        list.push(FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['event_type_tag'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes']))
+        list.push(FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['event_type_tag'], j['url'], j['first_name'], j['email_address'], j['ip_address'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes']))
       end
       list
     rescue JSON::ParserError => _
@@ -86,7 +86,7 @@ class Fomo
 
       list = []
       data['events'].each do |j|
-        list.push(FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['event_type_tag'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes']))
+        list.push(FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['event_type_tag'], j['url'], j['first_name'], j['email_address'], j['ip_address'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes']))
       end
       meta = FomoMetaData.new(data['meta']['per_page'].to_i, data['meta']['page'].to_i, data['meta']['total_count'].to_i, data['meta']['total_pages'].to_i)
       FomoEventsWithMeta.new(list, meta)
@@ -112,15 +112,15 @@ class Fomo
   #
   # Returns an FomoEvent object.
   #
-  def create_event(event=nil, event_type_id='', event_type_tag='', url='', first_name='', city='', province='', country='', title='', image_url='', custom_event_fields_attributes=[])
+  def create_event(event=nil, event_type_id='', event_type_tag='', url='', first_name='', email_address='', ip_address='', city='', province='', country='', title='', image_url='', custom_event_fields_attributes=[])
     if event == nil
-      event = FomoEventBasic.new(event_type_id, event_type_tag, url, first_name, city, province, country, title, image_url, custom_event_fields_attributes)
+      event = FomoEventBasic.new(event_type_id, event_type_tag, url, first_name, email_address, ip_address, city, province, country, title, image_url, custom_event_fields_attributes)
     end
 
     response = make_request('/api/v1/applications/me/events', 'POST', event)
     begin
       j = JSON.parse(response)
-      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['event_type_tag'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
+      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['event_type_tag'], j['url'], j['first_name'], j['email_address'], j['ip_address'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
     rescue JSON::ParserError => _
       # String was not valid
     end
@@ -154,7 +154,7 @@ class Fomo
     response = make_request('/api/v1/applications/me/events/' + event.id.to_s, 'PATCH', event)
     begin
       j = JSON.parse(response)
-      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['event_type_tag'], j['url'], j['first_name'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
+      FomoEvent.new(j['id'], j['created_at'], j['updated_at'], j['message'], j['link'], j['event_type_id'], j['event_type_tag'], j['url'], j['first_name'], j['email_address'], j['ip_address'], j['city'], j['province'], j['country'], j['title'], j['image_url'], j['custom_event_fields_attributes'])
     rescue JSON::ParserError => _
       # String was not valid
     end
