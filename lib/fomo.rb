@@ -27,8 +27,8 @@ class Fomo
   #
   def initialize (auth_token)
     @auth_token = auth_token
-    @version = '0.0.6'
-    @endpoint = 'https://www.usefomo.com'
+    @version = '0.1.0'
+    @endpoint = 'https://api.fomo.com'
   end
 
   # Get event
