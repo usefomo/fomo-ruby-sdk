@@ -22,7 +22,7 @@ class FomoTest < Minitest::Test
     event.first_name = 'Ryan'
     event.email_address = 'ryan.kulp@usefomo.com'
     event.ip_address = '128.177.108.102'
-    event.url = 'https://www.usefomo.com'
+    event.url = 'https://www.fomo.com'
     event.title = 'Test event'
 
     # Add custom attributes to event

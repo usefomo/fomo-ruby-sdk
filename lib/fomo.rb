@@ -1,7 +1,7 @@
-# Copyright (c) 2017. Fomo. https://www.usefomo.com
+# Copyright (c) 2018. Fomo. https://fomo.com
 #
-# Author:: Fomo (mailto:hello@usefomo.com)
-# Copyright:: Copyright (c) 2017. Fomo. https://www.usefomo.com
+# Author:: Fomo (mailto:hello@fomo.com)
+# Copyright:: Copyright (c) 2018. Fomo. https://fomo.com
 # License:: MIT
 
 require 'net/https'
@@ -27,8 +27,8 @@ class Fomo
   #
   def initialize (auth_token)
     @auth_token = auth_token
-    @version = '0.0.6'
-    @endpoint = 'https://www.usefomo.com'
+    @version = '0.1.0'
+    @endpoint = 'https://api.fomo.com'
   end
 
   # Get event

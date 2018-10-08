@@ -38,10 +38,10 @@ Create a new event:
 ```ruby
 event = FomoEvent.new
 event.event_type_id = '183' # Template ID is found inside Fomo > Templates -> Template ID
-event.email_address = 'ryan.kulp@usefomo.com', # used for creating Avatars in notifications
+event.email_address = 'ryan.kulp@fomo.com', # used for creating Avatars in notifications
 event.ip_address = '128.177.108.102', # used for extracting location parameters
 event.first_name = 'Ryan'
-event.url = 'https://www.usefomo.com'
+event.url = 'https://www.fomo.com'
 event.title = 'Test event'
 
 # you can also create events with event.event_type_tag
