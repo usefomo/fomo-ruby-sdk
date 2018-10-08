@@ -1,7 +1,7 @@
-# Copyright (c) 2017. Fomo. https://www.usefomo.com
+# Copyright (c) 2018. Fomo. https://fomo.com
 #
-# Author:: Fomo (mailto:hello@usefomo.com)
-# Copyright:: Copyright (c) 2017. Fomo. https://www.usefomo.com
+# Author:: Fomo (mailto:hello@fomo.com)
+# Copyright:: Copyright (c) 2018. Fomo. https://fomo.com
 # License:: MIT
 
 require 'json'
